@@ -9,9 +9,9 @@ import { loginSchema } from "@/modules/auth/schemas";
 import { z } from "zod";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTRPC } from "@/trpc/client";
-import {toast} from "sonner";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 const poppins = Poppins({
@@ -21,16 +21,18 @@ const poppins = Poppins({
 
 export const SignInView = () => {
     const router = useRouter();
-
     const trpc = useTRPC();
+    const queryClient = useQueryClient();
+
     const login = useMutation(trpc.auth.login.mutationOptions({
         onError: (error) => {
             toast.error(error.message);
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success("User logged in successfully");
+            await queryClient.invalidateQueries(trpc.auth.session.queryFilter());
             router.push("/");
-        }
+        },
     }));
     const form = useForm<z.infer<typeof loginSchema>>({
         mode: "all",
