@@ -1,5 +1,6 @@
 import { Category } from "@/payload-types";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
+import { min } from "date-fns";
 import type { Where } from "payload";
 import z from "zod";
 
@@ -8,11 +9,22 @@ export const productsRouter = createTRPCRouter({
         .input(
             z.object({
                 category: z.string().nullable().optional(),
+                minPrice: z.number().nullable().optional(),
+                maxPrice: z.number().nullable().optional(),
             }),
         )
         .query(async ({ ctx, input }) => {
             const where: Where = {};
-
+            if(input.minPrice){
+                where.price = {
+                    greater_than_equal: input.minPrice
+                }
+            }
+            if(input.maxPrice){
+                where.price = {
+                    less_than_equal: input.maxPrice
+                }
+            }
             if (input.category) {
                 const categoriesData = await ctx.db.find({
                     collection: 'categories',
@@ -30,7 +42,6 @@ export const productsRouter = createTRPCRouter({
                     subcategories: (doc.subcategories?.docs ?? []).map((doc) => ({
                         // Because of "depth:1" we are confident "doc" will be a type of "Category"
                         ...(doc as Category),
-                        subcategories: undefined,
                     }))
                 }));
                 const subcategoriesSlugs = [];
@@ -39,10 +50,11 @@ export const productsRouter = createTRPCRouter({
                 if (parentCategory) {
                     subcategoriesSlugs.push(...parentCategory.subcategories.map((subcategory) => subcategory.slug)
                     )
+                
+                    where["category.slug"] = {
+                        in: [parentCategory.slug, ...subcategoriesSlugs],
                 }
-                where["category.slug"] = {
-                    in: [parentCategory.slug, ...subcategoriesSlugs],
-                }
+            }
 
             }
             const data = await ctx.db.find({
