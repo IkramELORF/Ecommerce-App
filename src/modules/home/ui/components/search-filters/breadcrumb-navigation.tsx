@@ -21,27 +21,22 @@ export const BreadcrumbNavigation = ({
                     <>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild className="text-xl font-medium underline text-primary">
-                                <Link href={`/${activeCategory}`}>{activeCategoryName}</Link>                    
+                                <Link href={`/${activeCategory}`}>{activeCategoryName}</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="text-primary text-lg font-medium">/</BreadcrumbSeparator>
                         <BreadcrumbItem>
-                                <BreadcrumbPage className="text-xl font-medium">
-                                    {activeCategoryName}
-                                </BreadcrumbPage>
-                        </BreadcrumbItem>
-                            <BreadcrumbItem>
-                                <BreadcrumbPage className="text-xl font-medium">
-                                    {activeCategoryName}
-                                </BreadcrumbPage>
+                            <BreadcrumbPage className="text-xl font-medium">
+                                {activeSubcategoryName}
+                            </BreadcrumbPage>
                         </BreadcrumbItem>
                     </>
-                ):(
-                        <BreadcrumbItem>
-                                <BreadcrumbPage className="text-xl font-medium">
-                                    {activeSubcategoryName}
-                                </BreadcrumbPage>
-                        </BreadcrumbItem>
+                ) : (
+                    <BreadcrumbItem>
+                        <BreadcrumbPage className="text-xl font-medium">
+                            {activeCategoryName}
+                        </BreadcrumbPage>
+                    </BreadcrumbItem>
                 )}
             </BreadcrumbList>
         </Breadcrumb>
