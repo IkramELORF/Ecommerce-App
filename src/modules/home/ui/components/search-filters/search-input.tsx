@@ -30,14 +30,17 @@ export const SearchInput = ({ disabled }: Props) => {
                 <ListFilterIcon />
             </Button>
 
-           {session.isSuccess && session.data?.user && (
-                <Button asChild variant="elevated">
-                    <Link href="/library">
-                        <BookmarkCheckIcon />
-                        Library
-                    </Link>
-                </Button>
-            )}
+            {session.isLoading
+                ? null
+                : session.data?.user && (
+                    <Button asChild variant="elevated">
+                        <Link href="/library">
+                            <BookmarkCheckIcon />
+                            Library
+                        </Link>
+                    </Button>
+                )
+            }
             { /* TODO: Add library button */}
 
         </div>
