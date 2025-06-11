@@ -32,15 +32,31 @@ export const authRouter = createTRPCRouter({
                     code: "BAD_REQUEST",
                     message: "Username already exists",
                 });
-            }   
+            } 
+
+            const tenant = await ctx.db.create({
+                collection: "tenants",
+                data: {
+                    name: input.username,
+                    slug: input.username,
+                    stripeAccountId: "test"
+                }
+            })
+
             await ctx.db.create({
                 collection: "users",
                 data: {
                     email: input.email,
                     username: input.username,
-                    password: input.password // This will be hashed 
-                }
-            })
+                    password: input.password, // This will be hashed 
+                    tenants: [
+                        {
+                            tenant: tenant.id,
+                        },
+                    ],
+                },
+            });
+
             const data = await ctx.db.login({
                 collection: "users",
                 data: {
