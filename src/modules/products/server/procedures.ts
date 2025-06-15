@@ -4,8 +4,10 @@ import type { Sort, Where } from "payload";
 import z from "zod";
 import { sortValues } from "../search-params";
 import { DEFAULT_LIMIT } from "@/constants";
+import { headers as getHeaders } from "next/headers";
 
 export const productsRouter = createTRPCRouter({
+
     getOne: baseProcedure
         .input(
             z.object({
@@ -13,19 +15,47 @@ export const productsRouter = createTRPCRouter({
             })
         )
         .query(async ({ ctx, input }) => {
+            const headers = await getHeaders();
+            const session = await ctx.db.auth({ headers });
+
             const product = await ctx.db.findByID({
                 collection: "products",
                 id: input.id,
-                depth:2, // load the "product.image", "product.tenant", and "product.tenant.image"
+                depth: 2, // load the "product.image", "product.tenant", and "product.tenant.image"
             });
+
+            let isPurchased = false;
+            if (session.user) {
+                const ordersData = await ctx.db.find({
+                    collection: "orders",
+                    pagination: false,
+                    limit: 1,
+                    where: {
+                        and: [
+                            {
+                                product: {
+                                    equals: input.id,
+                                }
+                            }, {
+                                user: {
+                                    equals: session.user.id,
+                                },
+                            },
+                        ],
+                    },
+                });
+                isPurchased = !!ordersData.docs[0];
+            }
+
             return {
                 ...product,
+                isPurchased,
                 image: product.image as Media | null,
                 cover: product.cover as Media | null,
-                tenant: product.tenant as Tenant & { image: Media |null},
+                tenant: product.tenant as Tenant & { image: Media | null },
             };
         }),
-        
+
     getMany: baseProcedure
         .input(
             z.object({
@@ -64,7 +94,7 @@ export const productsRouter = createTRPCRouter({
                 }
             }
 
-            if (input.tenantSlug){
+            if (input.tenantSlug) {
                 where["tenant.slug"] = {
                     equals: input.tenantSlug,
                 };
@@ -117,10 +147,10 @@ export const productsRouter = createTRPCRouter({
             });
             return {
                 ...data,
-                docs: data.docs.map((doc)=>({
+                docs: data.docs.map((doc) => ({
                     ...doc,
-                    image: doc.image as Media |null,
-                    tenant: doc.tenant as Tenant & {image: Media | null},
+                    image: doc.image as Media | null,
+                    tenant: doc.tenant as Tenant & { image: Media | null },
                 }))
             }
         }),
