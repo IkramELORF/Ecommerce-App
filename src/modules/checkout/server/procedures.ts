@@ -106,7 +106,7 @@ export const checkoutRouter = createTRPCRouter({
         .query(async ({ ctx, input }) => {
 
             const data = await ctx.db.find({
-                collection: 'products',
+                collection: "products",
                 depth: 2, // Populate "category", "image", "tenant" & "tenant.image"
                 where: {
                     id: {
