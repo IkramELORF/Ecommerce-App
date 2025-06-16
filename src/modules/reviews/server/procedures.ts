@@ -11,7 +11,7 @@ export const reviewsRouter = createTRPCRouter({
         )
         .query(async ({ ctx, input }) => {
             const product = await ctx.db.findByID({
-                collection: 'products',
+                collection: "products",
                 id: input.productId,
             });
             if (!product) {
@@ -22,7 +22,7 @@ export const reviewsRouter = createTRPCRouter({
             }
 
             const reviewsData = await ctx.db.find({
-                collection: 'reviews',
+                collection: "reviews",
                 limit: 1,
                 where: {
                     and: [
@@ -57,7 +57,7 @@ export const reviewsRouter = createTRPCRouter({
         )
         .mutation(async ({ ctx, input }) => {
             const product = await ctx.db.findByID({
-                collection: 'products',
+                collection: "products",
                 id: input.productId,
             });
             if (!product) {
@@ -68,7 +68,7 @@ export const reviewsRouter = createTRPCRouter({
             }
 
             const existingReviewData = await ctx.db.find({
-                collection: 'reviews',
+                collection: "reviews",
                 limit: 1,
                 where: {
                     and: [
@@ -94,7 +94,7 @@ export const reviewsRouter = createTRPCRouter({
             }
 
             const review = await ctx.db.create({
-                collection: 'reviews',
+                collection: "reviews",
                 data: {
                     product: product.id,
                     user: ctx.session.user.id,
@@ -118,7 +118,7 @@ export const reviewsRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }) => {
             const existingReview = await ctx.db.findByID({
                 depth: 0, // existingReview.user will be the user ID
-                collection: 'reviews',
+                collection: "reviews",
                 id: input.reviewId,
             });
             if (!existingReview) {
@@ -134,7 +134,7 @@ export const reviewsRouter = createTRPCRouter({
                 });
             }
             const updatedReview = await ctx.db.update({
-                collection: 'reviews',
+                collection: "reviews",
                 id: input.reviewId,
                 data: {
                     rating: input.rating,

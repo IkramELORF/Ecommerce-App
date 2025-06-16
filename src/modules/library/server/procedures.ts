@@ -14,7 +14,7 @@ export const libraryRouter = createTRPCRouter({
         .query(async ({ ctx, input }) => {
 
             const ordersData = await ctx.db.find({
-                collection: 'orders',
+                collection: "orders",
                 limit: 1,
                 pagination: false,
                 where: {
@@ -42,7 +42,7 @@ export const libraryRouter = createTRPCRouter({
             }
 
             const product = await ctx.db.findByID({
-                collection: 'products',
+                collection: "products",
                 id: input.productId,
             });
 
@@ -66,7 +66,7 @@ export const libraryRouter = createTRPCRouter({
         .query(async ({ ctx, input }) => {
 
             const ordersData = await ctx.db.find({
-                collection: 'orders',
+                collection: "orders",
                 depth: 0, // we want just get ids, without populating
                 page: input.cursor,
                 limit: input.limit,
@@ -78,7 +78,7 @@ export const libraryRouter = createTRPCRouter({
             });
             const productIds = ordersData.docs.map((order) => order.product);
             const productsData = await ctx.db.find({
-                collection: 'products',
+                collection: "products",
                 pagination: false,
                 where: {
                     id: {
@@ -89,7 +89,7 @@ export const libraryRouter = createTRPCRouter({
             const dataWithSummarizedReviews = await Promise.all(
                 productsData.docs.map(async (doc) => {
                     const reviewsData = await ctx.db.find({
-                        collection: 'reviews',
+                        collection: "reviews",
                         pagination: false,
                         where: {
                             product: {
