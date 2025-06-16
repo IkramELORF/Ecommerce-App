@@ -1,4 +1,5 @@
 "use client";
+
 import { Input } from "@/components/ui/input";
 import { BookmarkCheckIcon, ListFilterIcon, SearchIcon } from "lucide-react";
 import { CategoriesSidebar } from "./categories-sidebar";
@@ -30,17 +31,15 @@ export const SearchInput = ({ disabled }: Props) => {
                 <ListFilterIcon />
             </Button>
 
-            {session.isLoading? null
-                : session.data?.user && (
-                    <Button asChild variant="elevated">
-                        <Link prefetch href="/library">
-                            <BookmarkCheckIcon />
-                            Library
-                        </Link>
-                    </Button>
-                )
-            }
-            { /* TODO: Add library button */}
+            {session.data?.user && (
+                <Button asChild variant="elevated">
+                    <Link prefetch href="/library">
+                        <BookmarkCheckIcon />
+                        Library
+                    </Link>
+                </Button>
+            )}
+            { /* TODO: Add library button */ }
 
         </div>
     );
