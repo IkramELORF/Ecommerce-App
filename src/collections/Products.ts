@@ -1,7 +1,6 @@
 import { isSuperAdmin } from "@/lib/access";
 import { Tenant } from "@/payload-types";
 import type { CollectionConfig } from "payload";
-import { boolean } from "zod";
 
 export const Products: CollectionConfig = {
     slug: "products",
@@ -15,6 +14,7 @@ export const Products: CollectionConfig = {
     },
     admin: {
         useAsTitle: "name",
+        description: "You must verify your account before creating products"
     },
     fields: [
         {

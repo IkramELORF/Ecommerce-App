@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { StarPicker } from "@/components/ui/star-picker";
+import { StarPicker } from "@/components/star-picker";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useTRPC } from "@/trpc/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
