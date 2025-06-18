@@ -84,6 +84,8 @@ export const libraryRouter = createTRPCRouter({
                     id: {
                         in: productIds,
                     },
+                    // isArchived: { not_equals: true },
+
                 },
             });
             const dataWithSummarizedReviews = await Promise.all(
