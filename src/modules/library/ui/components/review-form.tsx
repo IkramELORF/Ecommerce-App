@@ -26,24 +26,24 @@ export const ReviewForm = ({ productId, initialData }: Props) => {
     const queryClient = useQueryClient();
 
     const createReview = useMutation(trpc.reviews.create.mutationOptions({
-        onSuccess: () => { 
+        onSuccess: () => {
             queryClient.invalidateQueries(trpc.reviews.getOne.queryOptions({
                 productId,
             }));
             setIsPreview(true);
         },
-        onError: (error) => { 
+        onError: (error) => {
             toast.error(error.message);
         },
     }));
     const updateReview = useMutation(trpc.reviews.update.mutationOptions({
-        onSuccess: () => { 
+        onSuccess: () => {
             queryClient.invalidateQueries(trpc.reviews.getOne.queryOptions({
                 productId,
             }));
             setIsPreview(true);
         },
-        onError: (error) => { 
+        onError: (error) => {
             toast.error(error.message);
         },
     }));
@@ -135,5 +135,29 @@ export const ReviewForm = ({ productId, initialData }: Props) => {
                 </Button>
             )}
         </Form>
+    );
+};
+
+export const ReviewFormSkeleton = () => {
+    return (
+        <div className="flex flex-col gap-y-4">
+            <p className="font-medium">
+                Liked it? Give it a rating!
+            </p>
+            <StarPicker disabled/>
+            <Textarea
+                placeholder="Want to leave a written review?"
+                disabled
+            />
+            <Button
+                variant="elevated"
+                disabled
+                type="button"
+                size="lg"
+                className="bg-black text-white hover:bg-pink-400 hover:text-primary w-fit"
+            >
+                Post Review
+            </Button>
+        </div>
     );
 };

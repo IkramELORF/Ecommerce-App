@@ -10,7 +10,7 @@ import { CheckIcon, LinkIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useState } from "react";
-
+import { RichText } from "@payloadcms/richtext-lexical/react";
 import dynamic from "next/dynamic";
 import { toast } from "sonner";
 
@@ -94,7 +94,7 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
                         </div>
                         <div className="p-6">
                             {data.description ? (
-                                <p>{data.description}</p>
+                                <RichText data={data.description} />
                             ) : (
                                 <p className="font-medium text-muted-foreground italic">No description provided</p>
                             )}
@@ -113,7 +113,7 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
                                     <Button
                                         className="size-12"
                                         variant="elevated"
-                                        onClick={() => { 
+                                        onClick={() => {
                                             setIsCopied(true);
                                             setTimeout(() => {
                                                 setIsCopied(false);
@@ -123,7 +123,7 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
                                         }}
                                         disabled={isCopied}
                                     >
-                                       {isCopied ? <CheckIcon/> :<LinkIcon />}
+                                        {isCopied ? <CheckIcon /> : <LinkIcon />}
                                     </Button>
                                 </div>
                                 <p className="text-center font-medium">
@@ -161,6 +161,23 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export const ProductViewSkeleton = () => {
+    return (
+        <div className="px-4 lg:px-12 py-10">
+            <div className="border rounded-sm bg-white overflow-hidden">
+                <div className="relative aspect-[3.9] border-b">
+                    <Image
+                        src={"/placeholder.png"}
+                        alt="placeholder"
+                        fill
+                        className="object-cover"
+                    />
                 </div>
             </div>
         </div>
