@@ -66,24 +66,24 @@ export const Navbar = () => {
             {(session.data?.user?.email) ? (
                 <div className="hidden lg:flex">
                     <Button asChild className="border-l border-b-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-pink-400 hover:text-black transition-colors text-lg">
-                    <Link prefetch href="/admin">
-                       Dashboard
-                    </Link>
-                </Button>
+                        <Link prefetch href="/admin">
+                            Dashboard
+                        </Link>
+                    </Button>
                 </div>
-            ):(
-            <div className="hidden lg:flex">
-                <Button asChild variant="secondary" className="border-l border-b-0 border-r-0 px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg">
-                    <Link prefetch href="/sign-in">
-                        Log in
-                    </Link>
-                </Button>
-                <Button asChild className="border-l border-b-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-pink-400 hover:text-black transition-colors text-lg">
-                    <Link prefetch href="/sign-up">
-                        Start selling
-                    </Link>
-                </Button>
-            </div>
+            ) : (
+                <div className="hidden lg:flex">
+                    <Button asChild variant="secondary" className="border-l border-b-0 border-r-0 px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg">
+                        <Link prefetch href="/sign-in">
+                            Log in
+                        </Link>
+                    </Button>
+                    <Button asChild className="border-l border-b-0 border-r-0 px-12 h-full rounded-none bg-black text-white hover:bg-pink-400 hover:text-black transition-colors text-lg">
+                        <Link prefetch href="/sign-up">
+                            Start selling
+                        </Link>
+                    </Button>
+                </div>
             )}
             <div className="flex lg:hidden items-center justify-center">
                 <Button variant="ghost" className="size-12 border-transparent bg-white"
