@@ -5,6 +5,7 @@ import type { CollectionConfig } from "payload";
 export const Products: CollectionConfig = {
     slug: "products",
     access: {
+        read: () => true,
         create: ({ req }) => {
             if (isSuperAdmin(req.user)) return true;
             const tenant = req.user?.tenants?.[0]?.tenant as Tenant;
