@@ -40,7 +40,6 @@ export const Navbar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const trpc = useTRPC();
     const session = useQuery(trpc.auth.session.queryOptions());
-    console.log("session", session.data?.user);
     return (
         <nav className="h-20 flex border-b justify-between font-medium bg-white">
             <Link href="/" className="pl-6 flex items-center">
