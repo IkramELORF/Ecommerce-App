@@ -10,11 +10,14 @@ export function generateTenantURL(tenantSlug: string) {
   if(process.env.NODE_ENV === "development") {
     return `${process.env.NEXT_PUBLIC_APP_URL}/tenants/${tenantSlug}`;
   }
-  const protocol = "https";
-  const domain = process.env.NEXT_PUBLIC_ROOT_DOMAIN!;
   
-  // In production, use subdomain routing
-  return `${protocol}://${tenantSlug}.${domain}`;
+  return `${process.env.NEXT_PUBLIC_APP_URL}/tenants/${tenantSlug}`;
+
+  // const protocol = "https";
+  // const domain = process.env.NEXT_PUBLIC_ROOT_DOMAIN!;
+  
+  // // In production, use subdomain routing
+  // return `${protocol}://${tenantSlug}.${domain}`;
 };
 
 export function formatCurrency(value: number | string){
